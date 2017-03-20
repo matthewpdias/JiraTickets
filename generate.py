@@ -23,9 +23,9 @@ def get_description(type):
     bug = ["APP login page is slow", "buttons in component A are not visible", "missing routes in component A", "service1 not restarting", "graphics not displaying in base", "typo on component B loading screen", "API requests unresponsive from app", "problem opening multiple instances of APP", "mutliple logins cause service1 to crash", "API cannont handle two identical requests simultaneously", "bug in base casuing users to be logged out"]
 
     if type == "Bug":
-        return random.choice(story)
-    elif type == "Story":
         return random.choice(bug)
+    elif type == "Story":
+        return random.choice(story)
     else:
         return random.choice(task)
 
@@ -110,29 +110,23 @@ class Project:
         self.release_ver = 1;
 
     def advance_version(self):
-        if self.cur_ver == release_versions[self.project_key][0]:
+    		#if we are on 0, go to 1
+        if self.release_ver == 1:
             self.cur_ver = release_versions[self.project_key][1]
-            self.release_ver = 2
-        if self.cur_ver == release_versions[self.project_key][1]:
+            self.release_ver = 2;
+           #if we are on 1, go to 2
+        elif self.release_ver == 2:
             self.cur_ver = release_versions[self.project_key][2]
-            self.release_ver = 3
+            self.release_ver = 3;
 
     def get_status(self):
-        if self.release_ver == 1:
+        if self.cur_ver == release_versions[self.project_key][0]:
             statuses = ['Open', 'In Progress', 'Resolved', 'Resolved', 'Resolved', 'Closed', 'Closed', 'Closed']
-        elif self.release_ver == 2:
+        elif self.cur_ver == release_versions[self.project_key][1]:
             statuses = ['Open', 'In Progress', 'Resolved', 'Resolved', 'Resolved', 'Closed', 'Closed', 'Closed']
         else:
             statuses = ['Closed', 'Resolved', 'Resolved', 'In Progress','In Progress','In Progress', 'Open', 'Open', 'Open', 'Open']
         return random.choice(statuses)
-
-    def get_prev_version(self):
-        if self.release_ver == 3:
-            return release_versions[self.project_key][1]
-        elif self.release_ver == 2:
-            return release_versions[self.project_key][0]
-        else:
-            return self.cur_ver
 
     #print a .csv row
     def generate_ticket(self):
@@ -145,10 +139,10 @@ class Project:
         self.priority = get_priority()
         self.created_at = get_create_date()
         self.updated_at = get_update_date(self.created_at)
-        self.fix_ver1 = ""
+        self.fix_ver1 = self.cur_ver
         self.fix_ver2 = ""
         self.fix_ver3 = ""
-        self.affects_ver1 = self.cur_ver
+        self.affects_ver1 = ""
         self.affects_ver2 = ""
         self.affects_ver3 = ""
 
