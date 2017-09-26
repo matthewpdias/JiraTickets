@@ -11,10 +11,6 @@ def get_issue_type():
     else:
         return "Task"
 
-def get_new_version(version):
-    return "2.0.0"
-    #randomly increment
-
 def get_description(type):
     story = ["add user pictures to APP", "update the API for service1", "please create a home view for component A", "update the buttons in component B", "add automatic restart to service2", "generate logs for service2", "update base for future releases", "enable user reporting of bugs in APP", "import user data from component A to component B"]
 
@@ -38,33 +34,21 @@ def get_priority():
     priorities = ['Lowest', 'Low', 'Medium', 'Medium', 'Medium', 'Medium', 'High', 'Highest']
     return random.choice(priorities);
 
+#generate a "created at" date
 def get_create_date():
-    if random.randint(1,2) == 1:
-        month = random.randint(10, 12)
-        year = 2016
-        day = random.randint(1, 30)
-    else:
-        month = random.randint(1, 2)
-        year = 2017
-        day = random.randint(1, 28)
+    month = random.randint(8, 10)
+    year = 2017
+    day = random.randint(1, 30)
     return str(month) + '/' + str(day) + '/' + str(year)
 
+#generate a "date updated"
 def generate_date():
-    roll = random.randint(1, 3)
-    if roll == 1:
-        month = random.randint(10, 12)
-        year = 2016
-        date = random.randint(1, 30)
-    elif roll == 2:
-        month = random.randint(1, 2)
-        year = 2017
-        date = random.randint(1, 28)
-    else :
-        month = 3
-        date = random.randint(1, 8)
-        year = 2017
+    month = random.randint(9, 12)
+    date = random.randint(1, 30)
+    year = 2017
     return month, date, year
 
+#get date modified
 def get_update_date(date):
 
     create_date = date.split('/')
@@ -74,11 +58,14 @@ def get_update_date(date):
         modify_date = generate_date()
 
         #if the modify was a year ahead
-        if int(create_date[2]) < modify_date[2]:
-            return str(modify_date[0])+ '/'+ str(modify_date[1]) + '/' + str(modify_date[2])
+        #
+        # Not used when year is the same
+        #
+        #if int(create_date[2]) < modify_date[2]:
+        #    return str(modify_date[0])+ '/'+ str(modify_date[1]) + '/' + str(modify_date[2])
 
         #if the modify was in the same year and a later month
-        elif int(create_date[2]) == modify_date[2] and int(create_date[0]) < modify_date[0]:
+        if int(create_date[2]) == modify_date[2] and int(create_date[0]) < modify_date[0]:
             return str(modify_date[0])+ '/'+ str(modify_date[1]) + '/' + str(modify_date[2])
 
         #if the modify was in the same year and month but on the same or a future day
